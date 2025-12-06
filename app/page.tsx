@@ -33,7 +33,7 @@ export default async function Home() {
             >
               <p className="text-xl font-semibold mb-2">{item.title}</p>
               <p className="opacity-80">{item.content}</p>
-              <p className="opacity-80">{item.author.username}</p>
+              <p className="opacity-80">author: {item.author.username}</p>
             </div>
           ))}
         </div>
@@ -51,8 +51,8 @@ export default async function Home() {
             >
               <p className="text-xl font-semibold mb-2">{item.title}</p>
               <p className="opacity-80">{item.description}</p>
-              <p className="opacity-80">{item.tools}</p>
-              <p className="opacity-80">{item.author.username}</p>
+              <p className="opacity-80">tools: {item.tools}</p>
+              <p className="opacity-80">author: {item.author.username}</p>
             </div>
           ))}
         </div>

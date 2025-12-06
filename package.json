@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@tailwindcss/postcss": "^4.1.17",
+    "dayjs": "^1.11.19",
     "flowbite": "^4.0.1",
     "flowbite-react": "^0.12.10",
     "jwt-decode": "^4.0.0",
