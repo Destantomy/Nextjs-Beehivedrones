@@ -63,8 +63,8 @@ export default function SignupForm() {
                 required
             />
 
-            {error && <p className="text-red-600 text-sm text-center">{error}</p>}
-            {success && <p className="text-green-600 text-sm text-center">{success}</p>}
+            {error && <p className="mb-4 p-3 rounded border bg-red-100 border-red-400 text-red-700 text-center">{error}</p>}
+            {success && <p className="mb-4 p-3 rounded border bg-green-100 border-green-400 text-green-700 text-center">{success}</p>}
 
             <button
                 type="submit"

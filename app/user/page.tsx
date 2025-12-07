@@ -14,8 +14,8 @@ export default function UserDashboard() {
     const [articles, setArticles] = useState([]);
     const [projects, setProjects] = useState([]);
 
-    const [visibleArticles, setVisibleArticles] = useState(3);
-    const [visibleProjects, setVisibleProjects] = useState(3);
+    const [visibleArticles, setVisibleArticles] = useState(2);
+    const [visibleProjects, setVisibleProjects] = useState(2);
 
     const [loading, setLoading] = useState(true);
 
@@ -61,6 +61,62 @@ export default function UserDashboard() {
     }, []);
 
     if (loading) return <p className="mt-20 text-center">Loading...</p>;
+
+    const editArticle = async (id: string) => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+        const res = await fetch(`http://localhost:8080/api/article/userArticle/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert(data.error || "Failed to get article");
+            return;
+        }
+
+        // simpan data ke localStorage agar bisa dipakai halaman update
+        localStorage.setItem("edit_article", JSON.stringify(data.article));
+
+        router.push(`/dashboard/article/update/${id}`);
+
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+const editProject = async (id: string) => {
+    const token = localStorage.getItem("token");
+    if (!token) return;
+
+    try {
+        const res = await fetch(`http://localhost:8080/api/project/userProject/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+            alert(data.error || "Failed to get project");
+            return;
+        }
+
+        localStorage.setItem("edit_project", JSON.stringify(data.project));
+
+        router.push(`/dashboard/project/update/${id}`);
+
+    } catch (err) {
+        console.error(err);
+    }
+};
+
 
     const deleteArticle = async (id: string) => {
     const token = localStorage.getItem("token");
@@ -139,11 +195,10 @@ const deleteProject = async (id: string) => {
                     <p className="opacity-70">You have no articles.</p>
                 ) : (
                     <>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {articles.slice(0, visibleArticles).map((item: any, index: number) => {
-    console.log("ARTICLE ID:", item.id);  // 👉 Tambahkan di sini
-
     return (
-        <div key={index} className="border p-4 pt-8 rounded-lg relative">
+        <div key={index} className="border p-4 pt-5 rounded-lg relative">
             <div className="absolute top-2 inset-x-2 flex justify-between">
                 {/* DELETE BUTTON */}
                 <button
@@ -155,7 +210,7 @@ const deleteProject = async (id: string) => {
 
                 {/* UPDATE BUTTON */}
                 <button
-                    onClick={() => router.push(`/dashboard/article/update/${item.id}`)}
+                    onClick={() => editArticle(item.id)}
                     className="text-blue-600 hover:text-blue-800"
                 >
                     ✏️
@@ -180,8 +235,7 @@ const deleteProject = async (id: string) => {
         </div>
     );
 })}
-
-
+</div>
                         <div className="mt-4 text-center">
                             {visibleArticles >= articles.length ? (
                                 <button
@@ -230,7 +284,7 @@ const deleteProject = async (id: string) => {
                 ❌
             </button>
             <button
-            onClick={() => router.push(`/dashboard/project/update/${item.id}`)}
+            onClick={() => editProject(item.id)}
             className="text-blue-600 hover:text-blue-800">
                 ✏️
             </button>
@@ -256,7 +310,6 @@ const deleteProject = async (id: string) => {
         </div>
     ))}
 </div>
-
                         <div className="mt-4 mb-10 text-center">
                             {visibleProjects >= projects.length ? (
                                 <button

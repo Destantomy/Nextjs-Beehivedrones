@@ -30,6 +30,18 @@ export default function UpdateProject() {
             .finally(() => setLoading(false));
     }, [id]);
 
+    useEffect(() => {
+    const saved = localStorage.getItem("edit_project");
+
+    if (saved) {
+        const project = JSON.parse(saved);
+        setTitle(project.title);
+        setDescription(project.description);
+        setTools(project.tools);
+        setLoading(false);
+    }
+}, []);
+
     const handleUpdate = async () => {
         const token = localStorage.getItem("token");
 

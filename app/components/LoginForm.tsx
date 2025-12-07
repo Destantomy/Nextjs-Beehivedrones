@@ -67,7 +67,7 @@ export default function LoginForm() {
             />
 
             {error && (
-                <p className="text-red-600 text-sm text-center">{error}</p>
+                <p className="mb-4 p-3 rounded border bg-red-100 border-red-400 text-red-700 text-center">{error}</p>
             )}
 
             <button
