@@ -43,6 +43,18 @@ console.log("RAW RESPONSE:", text);
     fetchData();
     }, [id]);
 
+    useEffect(() => {
+    const saved = localStorage.getItem("edit_article");
+
+    if (saved) {
+        const article = JSON.parse(saved);
+        setTitle(article.title);
+        setContent(article.content);
+        setLoading(false);
+    }
+}, []);
+
+
     const handleUpdate = async () => {
         const token = localStorage.getItem("token");
         if (!token) return;
